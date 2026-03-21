@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getDoctorById, getSlots, reserveSlot, releaseSlot, linkDoctorUser, verifyDoctor } from '../api'
-import { useAuth } from '../context/AuthContext'
-import { useToast } from '../components/Toast'
+import { getDoctorById, getSlots, reserveSlot, releaseSlot, linkDoctorUser, verifyDoctor } from '../../api'
+import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../../components/Toast'
 
 function formatTime(t) {
     if (!t) return ''

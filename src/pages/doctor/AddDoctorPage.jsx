@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { createDoctor } from '../api'
-import { useAuth } from '../context/AuthContext'
-import { useToast } from '../components/Toast'
+import { createDoctor } from '../../api'
+import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../../components/Toast'
 
 export default function AddDoctorPage() {
     const { user } = useAuth()

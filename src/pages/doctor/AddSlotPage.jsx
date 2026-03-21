@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { createSlot } from '../api'
-import { useToast } from '../components/Toast'
+import { createSlot } from '../../api'
+import { useToast } from '../../components/Toast'
 
 export default function AddSlotPage() {
     const { id: doctorId } = useParams()

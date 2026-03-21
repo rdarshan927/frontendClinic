@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { getDoctorByUserId, createDoctor } from '../api'
+import { useAuth } from '../../context/AuthContext'
+import { getDoctorByUserId, createDoctor } from '../../api'
 
 const SPECIALIZATIONS = [
     'General Practice', 'Cardiology', 'Neurology', 'Pediatrics',

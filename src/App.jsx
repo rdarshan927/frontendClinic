@@ -6,13 +6,13 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
-import DashboardPage from './pages/DashboardPage'
-import DoctorsPage from './pages/DoctorsPage'
-import DoctorDetailPage from './pages/DoctorDetailPage'
-import AddDoctorPage from './pages/AddDoctorPage'
-import AddSlotPage from './pages/AddSlotPage'
-import MySchedulePage from './pages/MySchedulePage'
-import DoctorApplicationsPage from './pages/DoctorApplicationsPage'
+import DashboardPage from './pages/doctor/DashboardPage'
+import DoctorsPage from './pages/doctor/DoctorsPage'
+import DoctorDetailPage from './pages/doctor/DoctorDetailPage'
+import AddDoctorPage from './pages/doctor/AddDoctorPage'
+import AddSlotPage from './pages/doctor/AddSlotPage'
+import MySchedulePage from './pages/doctor/MySchedulePage'
+import DoctorApplicationsPage from './pages/doctor/DoctorApplicationsPage'
 
 function Layout({ children }) {
     return (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getDoctors, updateDoctor } from '../api'
-import { useToast } from '../components/Toast'
+import { getDoctors, updateDoctor } from '../../api'
+import { useToast } from '../../components/Toast'
 
 const SPECIALIZATIONS = [
     'General Practice', 'Cardiology', 'Neurology', 'Pediatrics',

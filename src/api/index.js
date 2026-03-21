@@ -99,17 +99,22 @@ export async function verifyDoctor(doctorId, verified) {
 }
 
 export async function getSlots(doctorId, date) {
-    const url = date
-        ? `${API_GATEWAY}/api/doctors/${doctorId}/slots?date=${date}`
-        : `${API_GATEWAY}/api/doctors/${doctorId}/slots`
-    const res = await axios.get(url, { headers: authHeaders() })
-    return res.data
+    const url = (date && date !== 'undefined' && date !== undefined) ? `${API_GATEWAY}/api/doctors/${doctorId}/slots?date=${date}` : `${API_GATEWAY}/api/doctors/${doctorId}/slots`
+    console.log('getSlots called with:', doctorId, date, 'URL:', url)
+    const response = await fetch(url, {
+        headers: authHeaders(),
+    })
+    console.log('Response status:', response.status)
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    const data = await response.json()
+    console.log('Response data:', data)
+    return data
 }
 
 export async function createSlot(doctorId, data) {
     const res = await axios.post(
         `${API_GATEWAY}/api/doctors/${doctorId}/slots`,
-        { slots: [data] },
+        [data],
         { headers: authHeaders() }
     )
     return res.data

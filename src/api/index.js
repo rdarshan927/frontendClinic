@@ -141,7 +141,30 @@ export async function releaseSlot(slotId) {
 export async function linkDoctorUser(doctorId, userId) {
     const res = await axios.patch(
         `${API_GATEWAY}/api/doctors/${doctorId}/link-user`,
-        { userId },
+        null,
+        {
+            headers: authHeaders(),
+            params: { userId },
+        }
+    )
+    return res.data
+}
+
+// ── Payment Service ────────────────────────────────────────────────────────
+
+export async function initiatePaymentSession(appointmentId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/payment-session`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function createPaymentIntent(appointmentId, paymentMethodId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/payments/intent`,
+        { appointmentId, paymentMethodId },
         { headers: authHeaders() }
     )
     return res.data

@@ -146,3 +146,53 @@ export async function linkDoctorUser(doctorId, userId) {
     )
     return res.data
 }
+
+// ── Appointment Service ────────────────────────────────────────────────────
+
+export async function createAppointment(data) {
+    const res = await axios.post(`${API_GATEWAY}/api/appointments`, data, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function cancelAppointment(appointmentId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/cancel`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function getAppointments(params = {}) {
+    const res = await axios.get(`${API_GATEWAY}/api/appointments`, {
+        headers: authHeaders(),
+        params,
+    })
+    return res.data
+}
+
+export async function createPaymentSession(appointmentId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/payment-session`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+// ── Patient helpers ───────────────────────────────────────────────────────
+export async function getMyPatient() {
+    const res = await axios.get(`${API_GATEWAY}/api/patients/me`, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function getPatientById(id) {
+    const res = await axios.get(`${API_GATEWAY}/api/patients/${id}`, {
+        headers: authHeaders(),
+    })
+    return res.data
+}

@@ -17,6 +17,8 @@ import BookingPage from './pages/appointment/BookingPage'
 import CheckoutPage from './pages/CheckoutPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import PaymentsPage from './pages/PaymentsPage'
+import PatientProfilePage from './pages/patient/PatientProfilePage'
+import PatientsPage from './pages/patient/PatientsPage'
 
 function Layout({ children }) {
     return (
@@ -49,6 +51,8 @@ export default function App() {
 
                         {/* Appointment Booking */}
                         <Route path="/appointments/book" element={<ProtectedRoute roles={['PATIENT']}><Layout><BookingPage /></Layout></ProtectedRoute>} />
+                        <Route path="/patients/me" element={<ProtectedRoute><Layout><PatientProfilePage /></Layout></ProtectedRoute>} />
+                        <Route path="/patients" element={<ProtectedRoute roles={['ADMIN', 'RECEPTIONIST']}><Layout><PatientsPage /></Layout></ProtectedRoute>} />
 
                         {/* Payment Routes */}
                         <Route path="/checkout" element={<ProtectedRoute roles={['PATIENT']}><Layout><CheckoutPage /></Layout></ProtectedRoute>} />

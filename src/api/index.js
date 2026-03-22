@@ -255,6 +255,34 @@ export async function notifyAppointmentPayment(appointmentId, paymentStatus, tra
 }
 
 // ── Patient helpers ───────────────────────────────────────────────────────
+export async function createPatientProfile(data) {
+    const res = await axios.post(`${API_GATEWAY}/api/patients`, data, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function getMyPatientProfile() {
+    const res = await axios.get(`${API_GATEWAY}/api/patients/me`, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function updatePatientProfile(id, data) {
+    const res = await axios.put(`${API_GATEWAY}/api/patients/${id}`, data, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function getPatients() {
+    const res = await axios.get(`${API_GATEWAY}/api/patients`, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
 export async function getMyPatient() {
     const res = await axios.get(`${API_GATEWAY}/api/patients/me`, {
         headers: authHeaders(),

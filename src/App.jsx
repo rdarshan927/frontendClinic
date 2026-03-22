@@ -13,6 +13,7 @@ import AddDoctorPage from './pages/doctor/AddDoctorPage'
 import AddSlotPage from './pages/doctor/AddSlotPage'
 import MySchedulePage from './pages/doctor/MySchedulePage'
 import DoctorApplicationsPage from './pages/doctor/DoctorApplicationsPage'
+import BookingPage from './pages/appointments/BookingPage'
 
 function Layout({ children }) {
     return (
@@ -41,6 +42,7 @@ export default function App() {
                         <Route path="/doctors/:id/slots/new" element={<ProtectedRoute roles={['ADMIN', 'RECEPTIONIST', 'DOCTOR']}><Layout><AddSlotPage /></Layout></ProtectedRoute>} />
                         <Route path="/my-schedule" element={<ProtectedRoute roles={['DOCTOR']}><Layout><MySchedulePage /></Layout></ProtectedRoute>} />
                         <Route path="/doctor-applications" element={<ProtectedRoute roles={['ADMIN', 'RECEPTIONIST']}><Layout><DoctorApplicationsPage /></Layout></ProtectedRoute>} />
+                        <Route path="/appointments/new" element={<ProtectedRoute><Layout><BookingPage /></Layout></ProtectedRoute>} />
 
                         {/* Fallbacks */ }
                         <Route path="/" element={<Navigate to="/dashboard" replace />} />

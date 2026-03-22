@@ -8,6 +8,7 @@ const ROLE_CONFIG = {
         color: 'badge-green',
         desc: 'View doctors, browse available slots, and book appointments.',
         actions: [
+            { label: 'My Patient Profile', to: '/patients/me' },
             { label: 'Browse Doctors', to: '/doctors' },
             { label: 'My Payments', to: '/payments' },
         ],
@@ -27,6 +28,7 @@ const ROLE_CONFIG = {
             { label: '📋 Doctor Applications', to: '/doctor-applications' },
             { label: '👨‍⚕️ All Doctors', to: '/doctors' },
             { label: '➕ Add Doctor', to: '/doctors/new' },
+            { label: '🧾 Patients', to: '/patients' },
         ],
     },
     ADMIN: {
@@ -36,6 +38,7 @@ const ROLE_CONFIG = {
             { label: '📋 Doctor Applications', to: '/doctor-applications' },
             { label: '👨‍⚕️ All Doctors', to: '/doctors' },
             { label: '➕ Add Doctor', to: '/doctors/new' },
+            { label: '🧾 Patients', to: '/patients' },
         ],
     },
 }

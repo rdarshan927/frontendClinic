@@ -2,10 +2,10 @@ import axios from 'axios'
 
 // API Gateway URL - all requests will go through the gateway
 // when hosted
-// const API_GATEWAY = 'https://api-gateway-268672367192.europe-west1.run.app'
 
 // development
 const API_GATEWAY = (import.meta.env.VITE_API_GATEWAY || 'http://localhost:8080').replace(/\/+$/, '')
+// const API_GATEWAY = 'http://localhost:8080'
 
 function getToken() {
     return localStorage.getItem('accessToken')
@@ -234,5 +234,55 @@ export async function notifyAppointmentPayment(appointmentId, paymentStatus, tra
         { appointmentId, paymentStatus, transactionId },
         { headers: authHeaders() }
     )
+    return res.data
+}
+
+// ── Appointment Service ────────────────────────────────────────────────────
+
+export async function createAppointment(data) {
+    const res = await axios.post(`${API_GATEWAY}/api/appointments`, data, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function cancelAppointment(appointmentId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/cancel`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function getAppointments(params = {}) {
+    const res = await axios.get(`${API_GATEWAY}/api/appointments`, {
+        headers: authHeaders(),
+        params,
+    })
+    return res.data
+}
+
+export async function createPaymentSession(appointmentId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/payment-session`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+// ── Patient helpers ───────────────────────────────────────────────────────
+export async function getMyPatient() {
+    const res = await axios.get(`${API_GATEWAY}/api/patients/me`, {
+        headers: authHeaders(),
+    })
+    return res.data
+}
+
+export async function getPatientById(id) {
+    const res = await axios.get(`${API_GATEWAY}/api/patients/${id}`, {
+        headers: authHeaders(),
+    })
     return res.data
 }

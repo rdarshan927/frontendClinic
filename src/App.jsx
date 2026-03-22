@@ -45,6 +45,7 @@ export default function App() {
                         <Route path="/doctors/:id/slots/new" element={<ProtectedRoute roles={['ADMIN', 'RECEPTIONIST', 'DOCTOR']}><Layout><AddSlotPage /></Layout></ProtectedRoute>} />
                         <Route path="/my-schedule" element={<ProtectedRoute roles={['DOCTOR']}><Layout><MySchedulePage /></Layout></ProtectedRoute>} />
                         <Route path="/doctor-applications" element={<ProtectedRoute roles={['ADMIN', 'RECEPTIONIST']}><Layout><DoctorApplicationsPage /></Layout></ProtectedRoute>} />
+                        <Route path="/appointments/new" element={<ProtectedRoute><Layout><BookingPage /></Layout></ProtectedRoute>} />
 
                         {/* Appointment Booking */}
                         <Route path="/appointments/book" element={<ProtectedRoute roles={['PATIENT']}><Layout><BookingPage /></Layout></ProtectedRoute>} />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getDoctorById, getSlots, reserveSlot, releaseSlot, linkDoctorUser, verifyDoctor } from '../../api'
+import { getDoctorById, getSlots, releaseSlot, linkDoctorUser, verifyDoctor } from '../../api'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../components/Toast'
 
@@ -46,16 +46,7 @@ export default function DoctorDetailPage() {
     }, [doctor, dateFilter])
 
     const handleReserve = async (slotId) => {
-        setActionLoading(p => ({ ...p, [slotId]: true }))
-        try {
-            await reserveSlot(slotId, user.id)
-            toast('Slot reserved successfully!', 'success')
-            fetchSlots()
-        } catch (err) {
-            toast(err?.response?.data?.error || 'Could not reserve slot.', 'error')
-        } finally {
-            setActionLoading(p => ({ ...p, [slotId]: false }))
-        }
+        navigate(`/appointments/book?doctorId=${doctor.id}&slotId=${slotId}`)
     }
 
     const handleRelease = async (slotId) => {

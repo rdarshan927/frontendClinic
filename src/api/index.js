@@ -5,7 +5,7 @@ import axios from 'axios'
 // const API_GATEWAY = 'https://api-gateway-268672367192.europe-west1.run.app'
 
 // development
-const API_GATEWAY = 'http://localhost:8080'
+const API_GATEWAY = (import.meta.env.VITE_API_GATEWAY || 'http://localhost:8080').replace(/\/+$/, '')
 
 function getToken() {
     return localStorage.getItem('accessToken')
@@ -100,14 +100,11 @@ export async function verifyDoctor(doctorId, verified) {
 
 export async function getSlots(doctorId, date) {
     const url = (date && date !== 'undefined' && date !== undefined) ? `${API_GATEWAY}/api/doctors/${doctorId}/slots?date=${date}` : `${API_GATEWAY}/api/doctors/${doctorId}/slots`
-    console.log('getSlots called with:', doctorId, date, 'URL:', url)
     const response = await fetch(url, {
         headers: authHeaders(),
     })
-    console.log('Response status:', response.status)
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     const data = await response.json()
-    console.log('Response data:', data)
     return data
 }
 
@@ -120,10 +117,10 @@ export async function createSlot(doctorId, data) {
     return res.data
 }
 
-export async function reserveSlot(slotId, userId) {
+export async function reserveSlot(slotId, patientId, appointmentId = null) {
     const res = await axios.post(
         `${API_GATEWAY}/api/slots/${slotId}/reserve`,
-        { userId },
+        { patientId, appointmentId },
         { headers: authHeaders() }
     )
     return res.data
@@ -150,6 +147,50 @@ export async function linkDoctorUser(doctorId, userId) {
     return res.data
 }
 
+// ── Appointment Service ─────────────────────────────────────────────────────
+
+export async function createAppointment(data) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments`,
+        data,
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function getAppointment(appointmentId) {
+    const res = await axios.get(
+        `${API_GATEWAY}/api/appointments/${appointmentId}`,
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function getMyAppointments() {
+    const res = await axios.get(
+        `${API_GATEWAY}/api/appointments`,
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function cancelAppointment(appointmentId) {
+    const res = await axios.patch(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/cancel`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function getAppointmentStatus(appointmentId) {
+    const res = await axios.get(
+        `${API_GATEWAY}/api/appointments/${appointmentId}/status`,
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
 // ── Payment Service ────────────────────────────────────────────────────────
 
 export async function initiatePaymentSession(appointmentId) {
@@ -165,6 +206,32 @@ export async function createPaymentIntent(appointmentId, paymentMethodId) {
     const res = await axios.post(
         `${API_GATEWAY}/api/payments/intent`,
         { appointmentId, paymentMethodId },
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function getMyPaymentTransactions(userId) {
+    const res = await axios.get(
+        `${API_GATEWAY}/api/payments/users/${userId}/transactions`,
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function confirmCheckoutSession(sessionId) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/payments/checkout-session/${sessionId}/confirm`,
+        {},
+        { headers: authHeaders() }
+    )
+    return res.data
+}
+
+export async function notifyAppointmentPayment(appointmentId, paymentStatus, transactionId = null) {
+    const res = await axios.post(
+        `${API_GATEWAY}/api/appointments/payment-callback`,
+        { appointmentId, paymentStatus, transactionId },
         { headers: authHeaders() }
     )
     return res.data

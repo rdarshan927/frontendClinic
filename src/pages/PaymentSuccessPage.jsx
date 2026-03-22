@@ -1,10 +1,38 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { confirmCheckoutSession, notifyAppointmentPayment } from '../api'
+import { useToast } from '../components/Toast'
 
 export default function PaymentSuccessPage() {
-    const { appointmentId } = useParams()
     const navigate = useNavigate()
     const location = useLocation()
+    const toast = useToast()
     const state = location.state || {}
+    const [confirming, setConfirming] = useState(true)
+    const [tx, setTx] = useState(null)
+
+    const sessionId = new URLSearchParams(location.search).get('session_id')
+
+    useEffect(() => {
+        if (!sessionId) {
+            setConfirming(false)
+            return
+        }
+
+        confirmCheckoutSession(sessionId)
+            .then(async (transaction) => {
+                setTx(transaction)
+
+                if (transaction?.appointmentId && transaction?.status === 'COMPLETED') {
+                    await notifyAppointmentPayment(transaction.appointmentId, 'success', transaction.id)
+                }
+            })
+            .catch(err => {
+                const msg = err?.response?.data?.message || 'Failed to confirm payment status'
+                toast(msg, 'error')
+            })
+            .finally(() => setConfirming(false))
+    }, [sessionId, toast])
 
     return (
         <div className="main-content fade-in">
@@ -27,6 +55,11 @@ export default function PaymentSuccessPage() {
                     <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
                         Your appointment payment has been processed successfully.
                     </p>
+                    {confirming && (
+                        <p style={{ color: 'var(--text-muted)', marginBottom: '12px' }}>
+                            Finalizing payment record...
+                        </p>
+                    )}
                 </div>
 
                 {state.doctorName && (
@@ -49,7 +82,11 @@ export default function PaymentSuccessPage() {
                             </div>
                             <div className="info-item">
                                 <label className="info-label">Appointment ID</label>
-                                <p className="info-value" style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>{appointmentId}</p>
+                                <p className="info-value" style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>{tx?.appointmentId || state.appointmentId || '—'}</p>
+                            </div>
+                            <div className="info-item">
+                                <label className="info-label">Payment Status</label>
+                                <p className="info-value">{tx?.status || 'COMPLETED'}</p>
                             </div>
                         </div>
                     </div>
@@ -58,6 +95,9 @@ export default function PaymentSuccessPage() {
                 <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
                     <button className="btn btn-primary" onClick={() => navigate('/doctors')}>
                         Browse More Doctors
+                    </button>
+                    <button className="btn btn-secondary" onClick={() => navigate('/payments')}>
+                        View Payments
                     </button>
                     <button className="btn btn-secondary" onClick={() => navigate('/my-appointments')}>
                         View My Appointments

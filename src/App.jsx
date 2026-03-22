@@ -13,8 +13,10 @@ import AddDoctorPage from './pages/doctor/AddDoctorPage'
 import AddSlotPage from './pages/doctor/AddSlotPage'
 import MySchedulePage from './pages/doctor/MySchedulePage'
 import DoctorApplicationsPage from './pages/doctor/DoctorApplicationsPage'
+import BookingPage from './pages/appointment/BookingPage'
 import CheckoutPage from './pages/CheckoutPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
+import PaymentsPage from './pages/PaymentsPage'
 
 function Layout({ children }) {
     return (
@@ -44,9 +46,14 @@ export default function App() {
                         <Route path="/my-schedule" element={<ProtectedRoute roles={['DOCTOR']}><Layout><MySchedulePage /></Layout></ProtectedRoute>} />
                         <Route path="/doctor-applications" element={<ProtectedRoute roles={['ADMIN', 'RECEPTIONIST']}><Layout><DoctorApplicationsPage /></Layout></ProtectedRoute>} />
 
+                        {/* Appointment Booking */}
+                        <Route path="/appointments/book" element={<ProtectedRoute roles={['PATIENT']}><Layout><BookingPage /></Layout></ProtectedRoute>} />
+
                         {/* Payment Routes */}
                         <Route path="/checkout" element={<ProtectedRoute roles={['PATIENT']}><Layout><CheckoutPage /></Layout></ProtectedRoute>} />
+                        <Route path="/payment/success" element={<ProtectedRoute roles={['PATIENT']}><Layout><PaymentSuccessPage /></Layout></ProtectedRoute>} />
                         <Route path="/appointments/:appointmentId/payment-success" element={<ProtectedRoute roles={['PATIENT']}><Layout><PaymentSuccessPage /></Layout></ProtectedRoute>} />
+                        <Route path="/payments" element={<ProtectedRoute roles={['PATIENT']}><Layout><PaymentsPage /></Layout></ProtectedRoute>} />
 
                         {/* Fallbacks */ }
                         <Route path="/" element={<Navigate to="/dashboard" replace />} />

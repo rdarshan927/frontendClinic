@@ -7,7 +7,10 @@ const ROLE_CONFIG = {
     PATIENT: {
         color: 'badge-green',
         desc: 'View doctors, browse available slots, and book appointments.',
-        actions: [{ label: 'Browse Doctors', to: '/doctors' }],
+        actions: [
+            { label: 'Browse Doctors', to: '/doctors' },
+            { label: 'My Payments', to: '/payments' },
+        ],
     },
     DOCTOR: {
         color: 'badge-blue',

@@ -2,10 +2,10 @@ import axios from 'axios'
 
 // API Gateway URL - all requests will go through the gateway
 // when hosted
-// const API_GATEWAY = 'https://api-gateway-268672367192.europe-west1.run.app'
+const API_GATEWAY = 'https://api-gateway-78514746924.europe-west1.run.app'
 
 // development
-const API_GATEWAY = 'http://localhost:8080'
+// const API_GATEWAY = 'http://localhost:8080'
 
 function getToken() {
     return localStorage.getItem('accessToken')
